@@ -1,7 +1,7 @@
 package com.todo.mirujima_be.user.controller;
 
-import com.codeit.torip.user.dto.UserResponse;
-import com.codeit.torip.user.service.UserService;
+import com.todo.mirujima_be.user.dto.UserResponse;
+import com.todo.mirujima_be.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,7 +1,7 @@
 package com.todo.mirujima_be.user.entity;
 
-import com.codeit.torip.common.entity.BaseEntity;
-import com.codeit.torip.user.dto.UserResponse;
+import com.todo.mirujima_be.common.entity.BaseEntity;
+import com.todo.mirujima_be.user.dto.UserResponse;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

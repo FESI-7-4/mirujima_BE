@@ -1,8 +1,8 @@
 package com.todo.mirujima_be.user.service;
 
-import com.codeit.torip.auth.util.AuthUtil;
-import com.codeit.torip.user.dto.UserResponse;
-import com.codeit.torip.user.entity.User;
+import com.todo.mirujima_be.auth.util.AuthUtil;
+import com.todo.mirujima_be.user.dto.UserResponse;
+import com.todo.mirujima_be.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
