@@ -1,0 +1,60 @@
+package com.todo.mirujima_be.common.controller;
+
+import com.todo.mirujima_be.common.dto.CommonResponse;
+import com.todo.mirujima_be.common.dto.S3DownloadLinkResponse;
+import com.todo.mirujima_be.common.dto.S3UploadLinkResponse;
+import com.todo.mirujima_be.common.exception.AlertException;
+import com.todo.mirujima_be.common.service.S3Service;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/mirujima/s3")
+@Tag(name = "S3", description = "S3 관련 API")
+public class S3Controller {
+
+    private final AtomicInteger UPLOAD_REQUEST_CNT = new AtomicInteger(0);
+    private final AtomicInteger DOWNLOAD_REQUEST_CNT = new AtomicInteger(0);
+
+    private final S3Service s3Service;
+
+    @PostMapping("/upload")
+    @Operation(summary = "S3 업로드 URL 발급 API", description = "S3 업로드 URL을 발급합니다. (유효시간 1분)",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공")
+            }
+    )
+    public CommonResponse<S3UploadLinkResponse> generateS3UploadUrl(@RequestParam("fileName") String fileName) {
+        // TODO 나중에 지워도 되지만 혹시나 많은 양의 업로드 요청시 비용 문제가 될 수 있으므로 임시 방편으로 제한을 둠
+        UPLOAD_REQUEST_CNT.set(UPLOAD_REQUEST_CNT.get() + 1);
+        if (UPLOAD_REQUEST_CNT.get() >= 100) throw new AlertException("일일 업로드 제한 100회를 초과하였습니다");
+
+        var s3UrlResponse = s3Service.generateS3UploadUrl(fileName);
+        return new CommonResponse<S3UploadLinkResponse>().success(s3UrlResponse);
+    }
+
+    @PostMapping("/download")
+    @Operation(summary = "S3 다운로드 URL 발급 API", description = "S3 다운로드 URL을 발급합니다. (유효시간 10분)",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공")
+            }
+    )
+    public CommonResponse<S3DownloadLinkResponse> generateS3DownloadUrl(@RequestParam("fileName") String filePath) {
+        // TODO 나중에 지워도 되지만 혹시나 많은 양의 다운로드 요청시 비용 문제가 될 수 있으므로 임시 방편으로 제한을 둠
+        DOWNLOAD_REQUEST_CNT.set(DOWNLOAD_REQUEST_CNT.get() + 1);
+        if (DOWNLOAD_REQUEST_CNT.get() >= 1000) throw new AlertException("일일 다운로드 제한 1000회를 초과하였습니다");
+
+        var s3UrlResponse = s3Service.generateS3DownloadUrl(filePath);
+        return new CommonResponse<S3DownloadLinkResponse>().success(s3UrlResponse);
+    }
+
+}

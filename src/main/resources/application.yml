@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: mirujima_BE
+  lifecycle:
+    timeout-per-shutdown-phase: 120
+
+  datasource:
+    url: jdbc:mysql://${DB_IP}:3306/${DB_NAME}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+jwt:
+  expiredAccessTokenMs: 600000
+  expiredRefreshTokenMs: 86400000
+  secretKey: ENC(N+AnyaBk0MGt58SHgUFDn6QLWvhUSU5MVpWMcigoNUDnDjwxqheFtpNBV9IO8EnG)
+
+## Jasypt
+jasypt:
+  encryptor:
+    key: ${jasypt_key}
+
+server:
+  shutdown: graceful
+
+cloud:
+  aws:
+    credentials:
+      access-key: ENC(QtldJ/h2U1UGb0Zfmf2RkggGD08nRsPcQxkSF2+xyhE=)
+      secret-key: ENC(ZtjaK/1Tb791Ju8ay/v5NSMSH5fmupELDujmeestR+BGOSwRLhB0sVtfRMmRmknXwF/zrgmvP58=)
+    region:
+      static: ENC(x6/uuqcHpKqcLwYSWMfOZtRPHXBGSejO)
+    s3:
+      bucket: ENC(5RyziorhkYWj9Zxqxt3Ykg==)
