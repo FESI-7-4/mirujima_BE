@@ -1,12 +1,11 @@
 package com.todo.mirujima_be.note.controller;
 
 import com.todo.mirujima_be.common.dto.CommonResponse;
+import com.todo.mirujima_be.note.dto.NotePageCollection;
 import com.todo.mirujima_be.note.dto.request.NoteListRequest;
 import com.todo.mirujima_be.note.dto.request.NoteModRequest;
 import com.todo.mirujima_be.note.dto.request.NoteRegRequest;
-import com.todo.mirujima_be.note.dto.response.NoteDeletedResponse;
-import com.todo.mirujima_be.note.dto.response.NoteDetailListResponse;
-import com.todo.mirujima_be.note.dto.response.NoteDetailResponse;
+import com.todo.mirujima_be.note.dto.response.NoteResponse;
 import com.todo.mirujima_be.note.service.NoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,21 +16,21 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/mirujima/todo/note")
+@RequestMapping("/mirujima/notes")
 @Tag(name = "Note", description = "노트 관련 API")
 public class NoteController {
 
     private final NoteService noteService;
 
     @GetMapping
-    @Operation(summary = "노트 모아보기 API", description = "노트 목록을 조회합니다",
+    @Operation(summary = "노트 목록 조회 API", description = "노트 목록을 조회합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<NoteDetailListResponse> getNoteList(@ModelAttribute @Valid NoteListRequest noteListRequest) {
-        var noteDetailList = noteService.getNoteList(noteListRequest);
-        return new CommonResponse<NoteDetailListResponse>().success(noteDetailList);
+    public CommonResponse<NotePageCollection> getNoteList(@ModelAttribute @Valid NoteListRequest noteListRequest) {
+        var response = noteService.getNoteList(noteListRequest);
+        return new CommonResponse<NotePageCollection>().success(response);
     }
 
     @PostMapping
@@ -40,9 +39,9 @@ public class NoteController {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<Long> registerNote(@RequestBody @Valid NoteRegRequest noteRegRequest) {
-        var noteId = noteService.registerNote(noteRegRequest);
-        return new CommonResponse<Long>().success(noteId);
+    public CommonResponse<NoteResponse> registerNote(@RequestBody @Valid NoteRegRequest noteRegRequest) {
+        var response = noteService.registerNote(noteRegRequest);
+        return new CommonResponse<NoteResponse>().success(response);
     }
 
     @GetMapping("/{noteId}")
@@ -51,20 +50,22 @@ public class NoteController {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<NoteDetailResponse> getNoteDetail(@PathVariable(name = "noteId") long noteId) {
-        var noteDetail = noteService.getNoteDetail(noteId);
-        return new CommonResponse<NoteDetailResponse>().success(noteDetail);
+    public CommonResponse<NoteResponse> getNoteDetail(@PathVariable(name = "noteId") long id) {
+        var response = noteService.getNoteDetail(id);
+        return new CommonResponse<NoteResponse>().success(response);
     }
 
-    @PutMapping
+    @PatchMapping("/{noteId}")
     @Operation(summary = "노트 수정 API", description = "노트를 수정합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<Long> modifyNote(@RequestBody @Valid NoteModRequest noteModRequest) {
-        var taskNoteId = noteService.modifyNote(noteModRequest);
-        return new CommonResponse<Long>().success(taskNoteId);
+    public CommonResponse<NoteResponse> modifyNote(
+            @PathVariable(name = "noteId") long id, @RequestBody @Valid NoteModRequest noteModRequest
+    ) {
+        var response = noteService.modifyNote(id, noteModRequest);
+        return new CommonResponse<NoteResponse>().success(response);
     }
 
     @DeleteMapping("/{noteId}")
@@ -73,9 +74,9 @@ public class NoteController {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<NoteDeletedResponse> deleteNote(@PathVariable("noteId") long noteId) {
-        var deletedNote = noteService.deleteNote(noteId);
-        return new CommonResponse<NoteDeletedResponse>().success(deletedNote);
+    public CommonResponse<?> deleteNote(@PathVariable("noteId") long noteId) {
+        noteService.deleteNote(noteId);
+        return new CommonResponse<>().success(null);
     }
 
 }

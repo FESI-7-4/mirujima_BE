@@ -9,9 +9,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -26,13 +23,13 @@ public class Todo extends BaseUserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "goal_id", nullable = false)
     private Goal goal;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Note> notes = new ArrayList<>();
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "note_id")
+    private Note note;
 
     @Column(nullable = false)
     private String title;
@@ -41,7 +38,7 @@ public class Todo extends BaseUserEntity {
 
     private String filePath;
 
-    private Boolean done;
+    private Boolean done = false;
 
     public static Todo from(TodoRegRequest todoRegRequest) {
         return Todo.builder()
@@ -54,6 +51,8 @@ public class Todo extends BaseUserEntity {
     public void modifyTo(TodoModRequest todoModRequest) {
         this.title = todoModRequest.getTitle();
         this.filePath = todoModRequest.getFilePath();
+        this.linkUrl = todoModRequest.getLinkUrl();
+        this.done = todoModRequest.getDone();
     }
 
     public void processCompletion(boolean isCompleted) {

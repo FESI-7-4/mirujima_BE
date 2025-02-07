@@ -17,7 +17,7 @@ public class NoteRegRequest {
 
     @NotNull(message = "투두 고유키는 필수 값입니다.")
     @Schema(description = "투두 고유키", example = "1")
-    private Long id;
+    private Long todoId;
     @NotBlank(message = "노트 제목은 비어있을 수 없습니다.")
     @Size(max = 30, message = "노트 제목은 30자를 초과하실 수 없습니다.")
     @Schema(description = "노트 제목", example = "노트 제목")

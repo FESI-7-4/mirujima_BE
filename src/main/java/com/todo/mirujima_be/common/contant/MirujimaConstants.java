@@ -3,7 +3,7 @@ package com.todo.mirujima_be.common.contant;
 public class MirujimaConstants {
 
     public static class Goal {
-        public static final Integer PAGE_SIZE = 3;
+        public static final Integer PAGE_SIZE = 5;
     }
 
     public static class Note {

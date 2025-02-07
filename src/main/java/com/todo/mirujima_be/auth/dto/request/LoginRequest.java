@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class LoginRequest {
+
     @NotEmpty
     @Email
     @Schema(description = "사용자의 이메일", example = "test@test.com", nullable = false)
@@ -14,4 +15,5 @@ public class LoginRequest {
     @NotEmpty
     @Schema(description = "사용자의 비밀번호", example = "1234", nullable = false)
     private String password;
+    
 }

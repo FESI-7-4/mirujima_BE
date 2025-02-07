@@ -7,6 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class EmailCheckResponse {
+
     @Schema(description = "이메일 중복 여부", example = "true")
     private Boolean exists;
+    
 }

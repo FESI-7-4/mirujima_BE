@@ -1,9 +1,7 @@
 package com.todo.mirujima_be.auth.controller;
 
 import com.todo.mirujima_be.auth.dto.request.LoginRequest;
-import com.todo.mirujima_be.auth.dto.request.RegisterRequest;
 import com.todo.mirujima_be.auth.dto.request.TokenRequest;
-import com.todo.mirujima_be.auth.dto.response.EmailCheckResponse;
 import com.todo.mirujima_be.auth.dto.response.LoginResponse;
 import com.todo.mirujima_be.auth.dto.response.TokenResponse;
 import com.todo.mirujima_be.auth.service.AuthService;
@@ -12,11 +10,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth", description = "인증 관련 API")
 @RestController
-@RequestMapping("/api/v1/mirujima/auth")
+@RequestMapping("/mirujima/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -30,18 +31,8 @@ public class AuthController {
             }
     )
     public CommonResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        return new CommonResponse<LoginResponse>().success(authService.login(loginRequest));
-    }
-
-    @PostMapping("/register")
-    @Operation(summary = "회원가입 API", description = "유저네임, 이메일, 비밀번호를 받아 회원가입을 진행합니다.",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "회원가입 성공"),
-                    @ApiResponse(responseCode = "400", description = "회원가입 실패")
-            }
-    )
-    public CommonResponse<LoginResponse> register(@RequestBody RegisterRequest registerRequest) {
-        return new CommonResponse<LoginResponse>().success(authService.register(registerRequest));
+        var response = authService.login(loginRequest);
+        return new CommonResponse<LoginResponse>().success(response);
     }
 
     @PostMapping("/refresh")
@@ -52,20 +43,8 @@ public class AuthController {
             }
     )
     public CommonResponse<TokenResponse> refresh(@RequestBody TokenRequest refreshToken) {
-        return new CommonResponse<TokenResponse>().success(authService.refresh(refreshToken.getRefreshToken()));
-    }
-
-    @GetMapping("/register/username/exists")
-    @Operation(summary = "이메일 중복 검사 API", description = "이메일을 받아서 중복인지 검사한다.",
-            responses = {
-                    @ApiResponse(responseCode = "200",
-                            description = "이메일 중복 검사 성공."),
-                    @ApiResponse(responseCode = "400",
-                            description = "이메일 검사 실패. 잘못된 이메일 형식이거나 서버 오류로 인해 검사가 실패했습니다.")
-            }
-    )
-    public CommonResponse<EmailCheckResponse> checkEmailExists(@RequestParam String email) {
-        return new CommonResponse<EmailCheckResponse>().success(authService.checkEmailExists(email));
+        var response = authService.refresh(refreshToken.getRefreshToken());
+        return new CommonResponse<TokenResponse>().success(response);
     }
 
 }

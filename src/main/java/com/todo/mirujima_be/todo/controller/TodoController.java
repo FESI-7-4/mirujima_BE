@@ -1,11 +1,12 @@
 package com.todo.mirujima_be.todo.controller;
 
 import com.todo.mirujima_be.common.dto.CommonResponse;
+import com.todo.mirujima_be.todo.dto.TodoPageCollection;
 import com.todo.mirujima_be.todo.dto.request.TodoListRequest;
 import com.todo.mirujima_be.todo.dto.request.TodoModRequest;
 import com.todo.mirujima_be.todo.dto.request.TodoRegRequest;
-import com.todo.mirujima_be.todo.dto.response.TodoDetailResponse;
 import com.todo.mirujima_be.todo.dto.response.TodoProceedStatusResponse;
+import com.todo.mirujima_be.todo.dto.response.TodoResponse;
 import com.todo.mirujima_be.todo.service.TodoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,74 +15,73 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/mirujima/todo")
-@Tag(name = "Todo", description = "투두 API")
+@RequestMapping("/mirujima/todos")
+@Tag(name = "Todo", description = "할일 API")
 public class TodoController {
 
     private final TodoService todoService;
 
     @GetMapping
-    @Operation(summary = "투두 목록 조회 API", description = "목표에 대한 투두 목록을 조회합니다",
+    @Operation(summary = "할일 목록 조회 API", description = "목표에 대한 할일 목록을 조회합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<List<TodoDetailResponse>> getTodoList(@ModelAttribute TodoListRequest todoListRequest) {
-        var todoDetailDtoList = todoService.getTodoList(todoListRequest);
-        return new CommonResponse<List<TodoDetailResponse>>().success(todoDetailDtoList);
+    public CommonResponse<TodoPageCollection> getTodoList(@ModelAttribute TodoListRequest todoListRequest) {
+        var response = todoService.getTodoList(todoListRequest);
+        return new CommonResponse<TodoPageCollection>().success(response);
     }
 
     @PostMapping
-    @Operation(summary = "투두 등록 API", description = "목표에 대한 투두를 등록합니다",
+    @Operation(summary = "할일 등록 API", description = "목표에 대한 할일를 등록합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<Long> registerTodo(@RequestBody @Valid TodoRegRequest todoRegRequest) {
-        var todoId = todoService.registerTodo(todoRegRequest);
-        return new CommonResponse<Long>().success(todoId);
+    public CommonResponse<TodoResponse> registerTodo(@RequestBody @Valid TodoRegRequest todoRegRequest) {
+        var response = todoService.registerTodo(todoRegRequest);
+        return new CommonResponse<TodoResponse>().success(response);
     }
 
     @GetMapping("/{todoId}")
-    @Operation(summary = "투두 상세 조회 API", description = "목표에 대한 투두를 상세 조회합니다",
+    @Operation(summary = "할일 상세 조회 API", description = "목표에 대한 할일를 상세 조회합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<TodoDetailResponse> getTodoDetail(@PathVariable("todoId") long todoId) {
-        var todoDetailDto = todoService.getTodoDetail(todoId);
-        return new CommonResponse<TodoDetailResponse>().success(todoDetailDto);
+    public CommonResponse<TodoResponse> getTodoDetail(@PathVariable("todoId") long id) {
+        var todoDetailDto = todoService.getTodoDetail(id);
+        return new CommonResponse<TodoResponse>().success(todoDetailDto);
     }
 
-    @PutMapping
-    @Operation(summary = "투두 수정 API", description = "목표에 대한 투두를 수정합니다",
+    @PatchMapping("{todoId}")
+    @Operation(summary = "할일 수정 API", description = "목표에 대한 할일를 수정합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<Long> modifyTodo(@RequestBody @Valid TodoModRequest todoModRequest) {
-        var result = todoService.modifyTodo(todoModRequest);
-        return new CommonResponse<Long>().success(result);
+    public CommonResponse<TodoResponse> modifyTodo(
+            @PathVariable(name = "todoId") Long id, @RequestBody @Valid TodoModRequest todoModRequest
+    ) {
+        var response = todoService.modifyTodo(id, todoModRequest);
+        return new CommonResponse<TodoResponse>().success(response);
     }
 
     @DeleteMapping("/{todoId}")
-    @Operation(summary = "투두 삭제 API", description = "목표에 대한 투두를 삭제합니다",
+    @Operation(summary = "할일 삭제 API", description = "목표에 대한 할일를 삭제합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<Map<String, Long>> deleteTodo(@PathVariable("todoId") long todoId) {
+    public CommonResponse<?> deleteTodo(@PathVariable("todoId") long todoId) {
         todoService.deleteTodo(todoId);
-        return new CommonResponse<Map<String, Long>>().success(Map.of("todoId", todoId));
+        return new CommonResponse<>().success(null);
     }
 
     @GetMapping("/progress")
-    @Operation(summary = "투두 진행도 조회 API", description = "내 투두에 대한 진행도를 조회",
+    @Operation(summary = "할일 진행도 조회 API", description = "내 할일에 대한 진행도를 조회",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
@@ -89,17 +89,6 @@ public class TodoController {
     public CommonResponse<TodoProceedStatusResponse> getProgressStatus() {
         var todoProceedStatusDto = todoService.getProgressStatus();
         return new CommonResponse<TodoProceedStatusResponse>().success(todoProceedStatusDto);
-    }
-
-    @PutMapping("/{todoId}")
-    @Operation(summary = "투두 완료 API", description = "투두 완료 처리",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "성공")
-            }
-    )
-    public CommonResponse<?> completeTodo(@PathVariable("todoId") long todoId, @RequestParam(name = "isCompleted") boolean isCompleted) {
-        todoService.completeTodo(todoId, isCompleted);
-        return new CommonResponse<>().success(true);
     }
 
 }

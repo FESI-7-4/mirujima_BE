@@ -22,8 +22,9 @@ public class Note extends BaseUserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "todo_id", nullable = false)
+    @OneToOne
+    @MapsId  // Note의 ID를 Todo의 ID와 공유
+    @JoinColumn(name = "todo_id")  // Note 테이블에 FK 추가
     private Todo todo;
 
     @Column(nullable = false, length = 30)
@@ -45,5 +46,6 @@ public class Note extends BaseUserEntity {
     public void modifyTo(NoteModRequest noteModRequest) {
         this.title = noteModRequest.getTitle();
         this.content = noteModRequest.getContent();
+        this.linkUrl = noteModRequest.getLinkUrl();
     }
 }

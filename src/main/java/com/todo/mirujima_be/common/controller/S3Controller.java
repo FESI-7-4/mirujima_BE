@@ -18,8 +18,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/mirujima/s3")
-@Tag(name = "S3", description = "S3 관련 API")
+@RequestMapping("/mirujima/files")
+@Tag(name = "File", description = "파일 관련 API")
 public class S3Controller {
 
     private final AtomicInteger UPLOAD_REQUEST_CNT = new AtomicInteger(0);
@@ -28,7 +28,7 @@ public class S3Controller {
     private final S3Service s3Service;
 
     @PostMapping("/upload")
-    @Operation(summary = "S3 업로드 URL 발급 API", description = "S3 업로드 URL을 발급합니다. (유효시간 1분)",
+    @Operation(summary = "파일 업로드 URL 발급 API", description = "파일 업로드 URL을 발급합니다. (유효시간 1분)",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
@@ -43,7 +43,7 @@ public class S3Controller {
     }
 
     @PostMapping("/download")
-    @Operation(summary = "S3 다운로드 URL 발급 API", description = "S3 다운로드 URL을 발급합니다. (유효시간 10분)",
+    @Operation(summary = "파일 다운로드 URL 발급 API", description = "파일 다운로드 URL을 발급합니다. (유효시간 10분)",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
             }

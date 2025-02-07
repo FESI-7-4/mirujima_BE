@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Component
@@ -90,6 +92,11 @@ public class JwtUtil {
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getLoginId(token);
         return (username.equals(userDetails.getUsername()) && !isExpired(token));
+    }
+
+    public LocalDateTime getExpiredAt() {
+        return this.getAccessTokenExpiredAt()
+                .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
 }

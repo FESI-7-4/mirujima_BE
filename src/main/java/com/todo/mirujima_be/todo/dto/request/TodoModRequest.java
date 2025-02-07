@@ -17,13 +17,14 @@ public class TodoModRequest {
     @NotNull(message = "목표 고유키는 필수 값입니다.")
     @Schema(description = "목표 고유키", example = "1")
     private Long goalId;
-    @NotNull(message = "투두 고유키는 필수 값입니다.")
-    @Schema(description = "투두 고유키", example = "1")
-    private Long id;
-    @NotBlank(message = "투두 제목은 필수 값입니다.")
-    @Schema(description = "투두 제목", example = "1")
+    @NotBlank(message = "할일 제목은 필수 값입니다.")
+    @Schema(description = "할일 제목", example = "1")
     private String title;
-    @Schema(description = "투두 파일 경로", example = "/home/image/sample.jpg", nullable = true)
+    @Schema(description = "할일 파일 경로", example = "/home/image/sample.jpg", nullable = true)
     private String filePath;
+    @Schema(description = "할일 링크 경로", nullable = true)
+    private String linkUrl;
+    @Schema(description = "완료 여부", example = "1")
+    private Boolean done;
 
 }
