@@ -5,10 +5,10 @@ spring:
     timeout-per-shutdown-phase: 120
 
   datasource:
-    url: jdbc:mysql://localhost:3306/mirujima
+    url: ENC(1KQa0Ks9zo7H6t0wbRWaL/3Tm2YNrULWj+Eqeh7p5y8Ex7SW2+aDXKSoEt5QKm0B6JdQd3Gq00nitkkHRg6UbEl2nFytmEFOgcITwh+eKhuXeVYF/fsGAGhUS4sGbvhaG818pzxxU48=)
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: test
-    password: test
+    username: ENC(nt7qS4UJ8rJHy/vl+da+WT77wyJCBVV1)
+    password: ENC(sHkQj7hh8U0z5fQPO11ZUVyCp2K0Vp3g)
 
   jpa:
     hibernate:
@@ -22,12 +22,12 @@ spring:
 jwt:
   expiredAccessTokenMs: 3600000
   expiredRefreshTokenMs: 86400000
-  secretKey: mirujima_jwt_key_#@!#_mirujima_jwt_key_#@!#
+  secretKey: ENC(lh1kMo8tAKIdFO/qo3/D3uZY45ZGJ5W+OFTFjY8in/9LJR+Qs0QyV0S6FL1zFFznYPmoCLZcx2U=)
 
 ## Jasypt
 jasypt:
   encryptor:
-    key: torip_jasypt_key_#@!#
+    key: ${jasypt_key}
 
 server:
   shutdown: graceful
