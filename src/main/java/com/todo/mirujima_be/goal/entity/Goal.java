@@ -5,6 +5,8 @@ import com.todo.mirujima_be.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -19,6 +21,8 @@ public class Goal extends BaseUserEntity {
     private Long id;
     @Column(nullable = false)
     private String title;
+    @Column
+    private LocalDateTime completionDate;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

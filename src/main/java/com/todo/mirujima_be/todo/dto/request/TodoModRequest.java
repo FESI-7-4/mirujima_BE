@@ -1,6 +1,8 @@
 package com.todo.mirujima_be.todo.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,7 +26,12 @@ public class TodoModRequest {
     private String filePath;
     @Schema(description = "할일 링크 경로", nullable = true)
     private String linkUrl;
+    @NotNull(message = "완료 여부는 필수 값입니다.")
     @Schema(description = "완료 여부", example = "1")
     private Boolean done;
+    @Max(4)
+    @Min(1)
+    @Schema(description = "중요도", example = "1")
+    private Integer priority = 1;
 
 }

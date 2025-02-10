@@ -66,6 +66,8 @@ public class TodoService {
                 .title(todoRegRequest.getTitle())
                 .linkUrl(todoRegRequest.getLinkUrl())
                 .filePath(todoRegRequest.getFilePath())
+                .priority(todoRegRequest.getPriority())
+                .done(false)
                 .build();
         todoRepository.save(todo);
         return TodoResponse.of(todo);

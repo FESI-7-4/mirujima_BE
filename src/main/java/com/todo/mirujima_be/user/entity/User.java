@@ -1,6 +1,7 @@
 package com.todo.mirujima_be.user.entity;
 
 import com.todo.mirujima_be.goal.entity.Goal;
+import com.todo.mirujima_be.user.dto.request.ModificationRequest;
 import com.todo.mirujima_be.user.dto.response.UserResponse;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -42,6 +43,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private OauthPlatform oauthPlatform;
 
+    private String profileImagePath;
+
     @Builder
     public User(String email, String password, String username, OauthPlatform oauthPlatform) {
         this.email = Objects.requireNonNull(email);
@@ -58,6 +61,14 @@ public class User {
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
                 .build();
+    }
+
+    public void modify(ModificationRequest modificationRequest) {
+        this.email = modificationRequest.getEmail();
+        this.password = modificationRequest.getPassword();
+        this.username = modificationRequest.getUsername();
+        this.profileImagePath = modificationRequest.getProfileImagePath();
+        this.updatedAt = LocalDateTime.now();
     }
 
 }

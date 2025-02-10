@@ -1,6 +1,8 @@
 package com.todo.mirujima_be.todo.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,5 +26,9 @@ public class TodoRegRequest {
     private String filePath;
     @Schema(description = "할일 링크 경로", nullable = true)
     private String linkUrl;
+    @Max(4)
+    @Min(1)
+    @Schema(description = "중요도", example = "1", defaultValue = "1")
+    private Integer priority = 1;
 
 }

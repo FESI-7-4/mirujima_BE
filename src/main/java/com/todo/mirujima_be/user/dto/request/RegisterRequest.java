@@ -1,4 +1,4 @@
-package com.todo.mirujima_be.auth.dto.request;
+package com.todo.mirujima_be.user.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -18,5 +18,5 @@ public class RegisterRequest {
     @NotEmpty
     @Schema(description = "사용자의 비밀번호", example = "1234", nullable = false)
     private String password;
-    
+
 }

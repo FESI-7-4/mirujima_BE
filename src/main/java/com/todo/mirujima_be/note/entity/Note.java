@@ -30,7 +30,7 @@ public class Note extends BaseUserEntity {
     @Column(nullable = false, length = 30)
     private String title;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false)
     private String content;
 
     private String linkUrl;

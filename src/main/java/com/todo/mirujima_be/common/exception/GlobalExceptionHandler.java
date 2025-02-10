@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.net.BindException;
 
-import static com.todo.mirujima_be.common.contant.MirujimaConstants.HttpConstant.CLIENT_FAIL_CODE;
-import static com.todo.mirujima_be.common.contant.MirujimaConstants.HttpConstant.SERVER_FAIL_CODE;
+import static com.todo.mirujima_be.common.contant.MirujimaConstants.HttpConstant.*;
 
 @Slf4j
 @RestControllerAdvice
@@ -42,7 +41,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public CommonResponse<?> expiredJwtExceptionHandler(ExpiredJwtException e) {
         log.warn("ExpiredJwtException", e);
-        return new CommonResponse<>().fail(CLIENT_FAIL_CODE, e.getMessage());
+        return new CommonResponse<>().fail(UNAUTHORIZED, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

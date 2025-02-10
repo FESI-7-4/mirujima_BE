@@ -4,7 +4,6 @@ import com.todo.mirujima_be.common.entity.BaseUserEntity;
 import com.todo.mirujima_be.goal.entity.Goal;
 import com.todo.mirujima_be.note.entity.Note;
 import com.todo.mirujima_be.todo.dto.request.TodoModRequest;
-import com.todo.mirujima_be.todo.dto.request.TodoRegRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "todo")
 public class Todo extends BaseUserEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,25 +38,17 @@ public class Todo extends BaseUserEntity {
 
     private String filePath;
 
-    private Boolean done = false;
+    @Column(nullable = false)
+    private Boolean done;
 
-    public static Todo from(TodoRegRequest todoRegRequest) {
-        return Todo.builder()
-                .title(todoRegRequest.getTitle())
-                .filePath(todoRegRequest.getFilePath())
-                .done(false)
-                .build();
-    }
+    private Integer priority;
 
     public void modifyTo(TodoModRequest todoModRequest) {
         this.title = todoModRequest.getTitle();
         this.filePath = todoModRequest.getFilePath();
         this.linkUrl = todoModRequest.getLinkUrl();
         this.done = todoModRequest.getDone();
-    }
-
-    public void processCompletion(boolean isCompleted) {
-        this.setDone(isCompleted);
+        this.priority = todoModRequest.getPriority();
     }
 
 }

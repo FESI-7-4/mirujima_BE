@@ -1,8 +1,9 @@
 package com.todo.mirujima_be.user.controller;
 
-import com.todo.mirujima_be.auth.dto.request.RegisterRequest;
 import com.todo.mirujima_be.auth.dto.response.EmailCheckResponse;
 import com.todo.mirujima_be.common.dto.CommonResponse;
+import com.todo.mirujima_be.user.dto.request.ModificationRequest;
+import com.todo.mirujima_be.user.dto.request.RegisterRequest;
 import com.todo.mirujima_be.user.dto.response.UserResponse;
 import com.todo.mirujima_be.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +29,18 @@ public class UserController {
     )
     public CommonResponse<UserResponse> register(@RequestBody RegisterRequest registerRequest) {
         var response = userService.register(registerRequest);
+        return new CommonResponse<UserResponse>().success(response);
+    }
+
+    @PutMapping
+    @Operation(summary = "유저 정보 수정 API", description = "유저네임, 이메일, 비밀번호를 받아 수정을 진행합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "유저 정보 수정 성공"),
+                    @ApiResponse(responseCode = "400", description = "유저 정보 수정 실패")
+            }
+    )
+    public CommonResponse<UserResponse> modify(@RequestBody ModificationRequest registerRequest) {
+        var response = userService.modify(registerRequest);
         return new CommonResponse<UserResponse>().success(response);
     }
 

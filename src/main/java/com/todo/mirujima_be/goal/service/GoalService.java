@@ -57,6 +57,7 @@ public class GoalService {
     public GoalResponse updateGoal(Long id, GoalModRequest goalModRequest) {
         Goal goal = goalRepository.findById(id).orElseThrow(() -> new AlertException("목표가 존재하지 않습니다"));
         goal.setTitle(goalModRequest.getTitle());
+        goal.setCompletionDate(goalModRequest.getCompletionDate());
         return GoalResponse.of(goal);
     }
 

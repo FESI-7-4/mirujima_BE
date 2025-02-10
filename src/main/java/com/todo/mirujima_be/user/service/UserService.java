@@ -1,10 +1,11 @@
 package com.todo.mirujima_be.user.service;
 
-import com.todo.mirujima_be.auth.dto.request.RegisterRequest;
 import com.todo.mirujima_be.auth.dto.response.EmailCheckResponse;
 import com.todo.mirujima_be.auth.util.AuthUtil;
 import com.todo.mirujima_be.auth.util.JwtUtil;
 import com.todo.mirujima_be.common.exception.AlertException;
+import com.todo.mirujima_be.user.dto.request.ModificationRequest;
+import com.todo.mirujima_be.user.dto.request.RegisterRequest;
 import com.todo.mirujima_be.user.dto.response.UserResponse;
 import com.todo.mirujima_be.user.entity.OauthPlatform;
 import com.todo.mirujima_be.user.entity.User;
@@ -47,6 +48,14 @@ public class UserService {
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();
+    }
+
+    @Transactional
+    public UserResponse modify(ModificationRequest modificationRequest) {
+        var email = modificationRequest.getEmail();
+        User user = userRepository.findUserByEmail(email).orElseThrow(() -> new AlertException("유저를 찾지 못하였습니다"));
+        user.modify(modificationRequest);
+        return UserResponse.of(user);
     }
 
     public EmailCheckResponse checkEmailExists(String email) {

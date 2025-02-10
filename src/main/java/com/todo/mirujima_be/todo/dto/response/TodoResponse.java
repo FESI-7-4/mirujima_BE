@@ -38,18 +38,21 @@ public class TodoResponse {
     @Schema(description = "수정일", example = "2024-10-11 15:21:00")
     private LocalDateTime updatedAt;
 
+    @Schema(description = "중요도", example = "1")
+    private Integer priority;
+
     public static TodoResponse of(Todo todo) {
         var goalDto = GoalDto.from(todo.getGoal());
-        var note = todo.getNote();
         return TodoResponse.builder()
                 .goal(goalDto)
-                .noteId(note == null ? null : note.getId())
+                .noteId(todo.getId())
                 .done(todo.getDone())
                 .linkUrl(todo.getLinkUrl())
                 .filePath(todo.getFilePath())
                 .title(todo.getTitle())
                 .id(todo.getId())
                 .userId(AuthUtil.getUserInfo().getId())
+                .priority(todo.getPriority())
                 .createdAt(todo.getCreatedAt())
                 .updatedAt(todo.getUpdatedAt())
                 .build();

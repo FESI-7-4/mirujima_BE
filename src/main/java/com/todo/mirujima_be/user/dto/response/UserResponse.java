@@ -20,6 +20,8 @@ public class UserResponse {
     private String username;
     @Schema(description = "사용자의 이메일", example = "test@test.com")
     private String email;
+    @Schema(description = "사용자의 유저 프로필 이미지 PATH", example = "2024/01/11/uuid-profile.jpg", nullable = false)
+    private String profileImagePath;
     @Schema(description = "가입 일자", example = "2024-10-11 15:21:00")
     private LocalDateTime createdAt;
     @Schema(description = "수정 일자", example = "2024-10-11 15:21:00")
@@ -30,6 +32,7 @@ public class UserResponse {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
+                .profileImagePath(user.getProfileImagePath())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();

@@ -1,6 +1,7 @@
 package com.todo.mirujima_be.todo.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class TodoListRequest {
 
     @Schema(description = "목표 고유키", example = "1")
     private Long goalId = 0L;
+    @NotNull(message = "완료 유무는 필수 값입니다.")
     @Schema(description = "완료 유무", example = "true/false")
     private Boolean done;
     @Schema(description = "현재 페이지에서 가장 작은 투두 고유키", example = "9999", defaultValue = "9999")

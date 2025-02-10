@@ -19,6 +19,8 @@ public class GoalResponse {
     private Long userId;
     @Schema(description = "목표의 이름", example = "제주도 목표")
     private String title;
+    @Schema(description = "완료일", example = "2021-10-01T00:00:00")
+    private LocalDateTime completionDate;
     @Schema(description = "목표을 생성한 시간", example = "2021-10-01T00:00:00")
     private LocalDateTime createdAt;
     @Schema(description = "목표를 마지막으로 업데이트한 시간", example = "2021-10-01T00:00:00")
@@ -29,6 +31,7 @@ public class GoalResponse {
                 .id(goal.getId())
                 .userId(goal.getUser().getId())
                 .title(goal.getTitle())
+                .completionDate(goal.getCompletionDate())
                 .createdAt(goal.getCreatedAt())
                 .updatedAt(goal.getUpdatedAt())
                 .build();
