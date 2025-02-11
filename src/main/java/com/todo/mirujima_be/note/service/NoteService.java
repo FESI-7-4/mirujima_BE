@@ -29,6 +29,7 @@ public class NoteService {
         var lastSeenId = noteListRequest.getLastSeenId();
         if (pageSize == null) pageSize = MirujimaConstants.Note.PAGE_SIZE;
         var pageable = PageRequest.of(0, pageSize);
+        var noteCount = noteRepository.countByTodoGoalId(noteListRequest.getGoalId());
         var notes = noteRepository.findAllByTodoGoalIdAndIdLessThanOrderByIdDesc(
                 noteListRequest.getGoalId(), lastSeenId, pageable
         );

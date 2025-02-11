@@ -12,4 +12,6 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
 
     List<Note> findAllByTodoGoalIdAndIdLessThanOrderByIdDesc(Long goalId, Long id, Pageable pageable);
 
+    Long countByTodoGoalId(Long goalId);
+
 }

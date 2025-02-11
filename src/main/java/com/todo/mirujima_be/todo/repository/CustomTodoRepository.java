@@ -8,4 +8,6 @@ public interface CustomTodoRepository {
 
     List<Long> getTodoIdList(TodoListRequest todoListRequest);
 
+    Long getTodoCount(TodoListRequest todoListRequest);
+
 }

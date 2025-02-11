@@ -26,12 +26,13 @@ public class TodoService {
     private final GoalRepository goalRepository;
 
     public TodoPageCollection getTodoList(TodoListRequest todoListRequest) {
+        var todoCount = todoRepository.getTodoCount(todoListRequest);
         var todoIds = todoRepository.getTodoIdList(todoListRequest);
         var todos = todoRepository.findAllById(todoIds);
         var lastSeenTodoId = todos.stream().mapToLong(Todo::getId).min().orElse(0L);
         return TodoPageCollection.builder()
                 .lastSeenId(lastSeenTodoId)
-                .totalCount(todos.size())
+                .totalCount(todoCount.intValue())
                 .todos(todos.stream().map(TodoResponse::of).toList())
                 .build();
     }
