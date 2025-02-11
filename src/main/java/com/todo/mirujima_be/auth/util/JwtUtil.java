@@ -51,8 +51,6 @@ public class JwtUtil {
     }
 
     public Date getAccessTokenExpiredAt() {
-        System.out.println("expiredAccessTokenMs = " + expiredAccessTokenMs);
-        System.out.println("System.currentTimeMillis() = " + System.currentTimeMillis());
         return new Date(System.currentTimeMillis() + expiredAccessTokenMs);
     }
 
