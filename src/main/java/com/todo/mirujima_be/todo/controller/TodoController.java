@@ -56,7 +56,7 @@ public class TodoController {
         return new CommonResponse<TodoResponse>().success(todoDetailDto);
     }
 
-    @PatchMapping("{todoId}")
+    @PatchMapping("/{todoId}")
     @Operation(summary = "할일 수정 API", description = "목표에 대한 할일를 수정합니다",
             responses = {
                     @ApiResponse(responseCode = "200", description = "성공")
@@ -66,6 +66,17 @@ public class TodoController {
             @PathVariable(name = "todoId") Long id, @RequestBody @Valid TodoModRequest todoModRequest
     ) {
         var response = todoService.modifyTodo(id, todoModRequest);
+        return new CommonResponse<TodoResponse>().success(response);
+    }
+
+    @PatchMapping("/completion/{todoId}")
+    @Operation(summary = "할일 완료 API", description = "목표에 대한 할일을 완료합니다",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공")
+            }
+    )
+    public CommonResponse<TodoResponse> completeTodo(@PathVariable(name = "todoId") Long id) {
+        var response = todoService.completeTodo(id);
         return new CommonResponse<TodoResponse>().success(response);
     }
 

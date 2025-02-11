@@ -79,6 +79,13 @@ public class TodoService {
     }
 
     @Transactional
+    public TodoResponse completeTodo(Long id) {
+        var todo = todoRepository.findById(id).orElseThrow(() -> new AlertException("할일이 없습니다."));
+        todo.setDone(true);
+        return TodoResponse.of(todo);
+    }
+
+    @Transactional
     public void deleteTodo(long todoId) {
         todoRepository.deleteById(todoId);
     }

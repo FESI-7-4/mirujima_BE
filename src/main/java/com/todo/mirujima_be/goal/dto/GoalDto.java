@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -17,11 +19,14 @@ public class GoalDto {
     private Long id;
     @Schema(description = "목표 제목", example = "목표 제목 1")
     private String title;
+    @Schema(description = "완료일", example = "2021-10-01T00:00:00")
+    private LocalDateTime completionDate;
 
     public static GoalDto from(Goal goal) {
         return GoalDto.builder()
                 .id(goal.getId())
                 .title(goal.getTitle())
+                .completionDate(goal.getCompletionDate())
                 .build();
     }
 
