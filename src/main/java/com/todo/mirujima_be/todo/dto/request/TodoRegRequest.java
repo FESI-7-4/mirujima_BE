@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TodoRegRequest {
 
-    @NotNull(message = "목표 고유키는 필수 값입니다.")
     @Schema(description = "목표 고유키", example = "1")
     private Long goalId;
     @NotBlank(message = "할일 제목은 필수 값입니다.")

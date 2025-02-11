@@ -36,7 +36,9 @@ public class NoteResponse {
 
     public static NoteResponse of(Note note) {
         var todo = note.getTodo();
+        GoalDto goalDto = null;
         var goal = todo.getGoal();
+        if (goal != null) goalDto = GoalDto.from(goal);
         return NoteResponse.builder()
                 .todoDto(TodoDto.from(todo))
                 .content(note.getContent())
@@ -45,7 +47,7 @@ public class NoteResponse {
                 .createdAt(note.getCreatedAt())
                 .title(note.getTitle())
                 .id(todo.getId())
-                .goalDto(GoalDto.from(goal))
+                .goalDto(goalDto)
                 .userId(note.getCreatedBy().getId())
                 .build();
     }

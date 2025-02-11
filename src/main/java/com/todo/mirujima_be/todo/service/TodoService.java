@@ -1,8 +1,8 @@
 package com.todo.mirujima_be.todo.service;
 
 import com.todo.mirujima_be.auth.util.AuthUtil;
-import com.todo.mirujima_be.common.contant.MirujimaConstants;
 import com.todo.mirujima_be.common.exception.AlertException;
+import com.todo.mirujima_be.goal.entity.Goal;
 import com.todo.mirujima_be.goal.repository.GoalRepository;
 import com.todo.mirujima_be.todo.dto.TodoPageCollection;
 import com.todo.mirujima_be.todo.dto.request.TodoListRequest;
@@ -13,7 +13,6 @@ import com.todo.mirujima_be.todo.dto.response.TodoResponse;
 import com.todo.mirujima_be.todo.entity.Todo;
 import com.todo.mirujima_be.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,13 +26,8 @@ public class TodoService {
     private final GoalRepository goalRepository;
 
     public TodoPageCollection getTodoList(TodoListRequest todoListRequest) {
-        var pageSize = todoListRequest.getPageSize();
-        var lastSeenId = todoListRequest.getLastSeenId();
-        if (pageSize == null) pageSize = MirujimaConstants.Todo.PAGE_SIZE;
-        var pageable = PageRequest.of(0, pageSize);
-        var todos = todoRepository.findAllByGoalIdAndDoneAndIdLessThanOrderByIdDesc(
-                todoListRequest.getGoalId(), todoListRequest.getDone(), lastSeenId, pageable
-        );
+        var todoIds = todoRepository.getTodoIdList(todoListRequest);
+        var todos = todoRepository.findAllById(todoIds);
         var lastSeenTodoId = todos.stream().mapToLong(Todo::getId).min().orElse(0L);
         return TodoPageCollection.builder()
                 .lastSeenId(lastSeenTodoId)
@@ -59,8 +53,12 @@ public class TodoService {
 
     @Transactional
     public TodoResponse registerTodo(TodoRegRequest todoRegRequest) {
-        var goal = goalRepository.findById(todoRegRequest.getGoalId())
-                .orElseThrow(() -> new AlertException("목표가 존재하지 않습니다."));
+        var goalId = todoRegRequest.getGoalId();
+        Goal goal = null;
+        if (goalId != null) {
+            goal = goalRepository.findById(todoRegRequest.getGoalId())
+                    .orElseThrow(() -> new AlertException("목표가 존재하지 않습니다."));
+        }
         var todo = Todo.builder()
                 .goal(goal)
                 .title(todoRegRequest.getTitle())

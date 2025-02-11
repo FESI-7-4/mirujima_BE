@@ -42,7 +42,9 @@ public class TodoResponse {
     private Integer priority;
 
     public static TodoResponse of(Todo todo) {
-        var goalDto = GoalDto.from(todo.getGoal());
+        GoalDto goalDto = null;
+        var goal = todo.getGoal();
+        if (goal != null) goalDto = GoalDto.from(goal);
         return TodoResponse.builder()
                 .goal(goalDto)
                 .noteId(todo.getId())

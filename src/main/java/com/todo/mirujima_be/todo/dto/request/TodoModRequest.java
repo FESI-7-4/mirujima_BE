@@ -16,7 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TodoModRequest {
 
-    @NotNull(message = "목표 고유키는 필수 값입니다.")
     @Schema(description = "목표 고유키", example = "1")
     private Long goalId;
     @NotBlank(message = "할일 제목은 필수 값입니다.")
