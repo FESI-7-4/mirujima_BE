@@ -1,6 +1,5 @@
 package com.todo.mirujima_be.note.service;
 
-import com.todo.mirujima_be.common.contant.MirujimaConstants;
 import com.todo.mirujima_be.common.exception.AlertException;
 import com.todo.mirujima_be.note.dto.NotePageCollection;
 import com.todo.mirujima_be.note.dto.request.NoteListRequest;
@@ -11,7 +10,6 @@ import com.todo.mirujima_be.note.entity.Note;
 import com.todo.mirujima_be.note.repository.NoteRepository;
 import com.todo.mirujima_be.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,18 +23,13 @@ public class NoteService {
     private final TodoRepository todoRepository;
 
     public NotePageCollection getNoteList(NoteListRequest noteListRequest) {
-        var pageSize = noteListRequest.getPageSize();
-        var lastSeenId = noteListRequest.getLastSeenId();
-        if (pageSize == null) pageSize = MirujimaConstants.Note.PAGE_SIZE;
-        var pageable = PageRequest.of(0, pageSize);
-        var noteCount = noteRepository.countByTodoGoalId(noteListRequest.getGoalId());
-        var notes = noteRepository.findAllByTodoGoalIdAndIdLessThanOrderByIdDesc(
-                noteListRequest.getGoalId(), lastSeenId, pageable
-        );
+        var noteCount = noteRepository.getNoteCount(noteListRequest);
+        var noteIds = noteRepository.getNoteIdList(noteListRequest);
+        var notes = noteRepository.findAllById(noteIds);
         var lastSeenTodoId = notes.stream().mapToLong(Note::getId).min().orElse(0L);
         return NotePageCollection.builder()
                 .lastSeenId(lastSeenTodoId)
-                .totalCount(notes.size())
+                .totalCount(noteCount.intValue())
                 .notes(notes.stream().map(NoteResponse::of).toList())
                 .build();
     }

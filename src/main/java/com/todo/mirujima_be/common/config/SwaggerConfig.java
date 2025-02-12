@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         servers = {
                 @Server(url = "https://api.mirujima.shop"),
+                @Server(url = "http://localhost:8081")
         })
 @Configuration
 public class SwaggerConfig {
