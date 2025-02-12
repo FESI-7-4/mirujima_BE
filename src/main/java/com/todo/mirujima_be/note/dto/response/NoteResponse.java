@@ -46,7 +46,7 @@ public class NoteResponse {
                 .updatedAt(note.getUpdatedAt())
                 .createdAt(note.getCreatedAt())
                 .title(note.getTitle())
-                .id(todo.getId())
+                .id(note.getId())
                 .goalDto(goalDto)
                 .userId(note.getCreatedBy().getId())
                 .build();

@@ -45,9 +45,10 @@ public class TodoResponse {
         GoalDto goalDto = null;
         var goal = todo.getGoal();
         if (goal != null) goalDto = GoalDto.from(goal);
+        var note = todo.getNote();
         return TodoResponse.builder()
                 .goal(goalDto)
-                .noteId(todo.getId())
+                .noteId(note == null ? null : note.getId())
                 .done(todo.getDone())
                 .linkUrl(todo.getLinkUrl())
                 .filePath(todo.getFilePath())

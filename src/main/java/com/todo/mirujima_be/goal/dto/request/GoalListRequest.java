@@ -14,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class GoalListRequest {
 
-    @Schema(description = "현재 페이지에서 가장 작은 목표 고유키", example = "1", defaultValue = "9223372036854775807")
+    @Schema(description = "현재 페이지에서 가장 작은 목표 고유키", example = "9999", defaultValue = "9223372036854775807")
     private Long lastSeenId = Long.MAX_VALUE;
     @Min(1)
     @Max(100)

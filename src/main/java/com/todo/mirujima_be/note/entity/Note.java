@@ -23,7 +23,6 @@ public class Note extends BaseUserEntity {
     private Long id;
 
     @OneToOne
-    @MapsId  // Note의 ID를 Todo의 ID와 공유
     @JoinColumn(name = "todo_id")  // Note 테이블에 FK 추가
     private Todo todo;
 

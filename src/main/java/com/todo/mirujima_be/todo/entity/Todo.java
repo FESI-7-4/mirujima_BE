@@ -27,8 +27,7 @@ public class Todo extends BaseUserEntity {
     @JoinColumn(name = "goal_id")
     private Goal goal;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "note_id")
+    @OneToOne(mappedBy = "todo", fetch = FetchType.EAGER)
     private Note note;
 
     @Column(nullable = false)
