@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -83,6 +85,7 @@ public class TodoService {
     public TodoResponse completeTodo(Long id) {
         var todo = todoRepository.findById(id).orElseThrow(() -> new AlertException("할일이 없습니다."));
         todo.setDone(true);
+        todo.setCompletionDate(LocalDateTime.now());
         return TodoResponse.of(todo);
     }
 

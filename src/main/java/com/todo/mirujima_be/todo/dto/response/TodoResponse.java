@@ -33,6 +33,8 @@ public class TodoResponse {
     private Long id;
     @Schema(description = "사용자 고유키", example = "1")
     private Long userId;
+    @Schema(description = "완료일", example = "2021-10-01T00:00:00")
+    private LocalDateTime completionDate;
     @Schema(description = "등록일", example = "2024-10-11 15:21:00")
     private LocalDateTime createdAt;
     @Schema(description = "수정일", example = "2024-10-11 15:21:00")
@@ -56,6 +58,7 @@ public class TodoResponse {
                 .id(todo.getId())
                 .userId(AuthUtil.getUserInfo().getId())
                 .priority(todo.getPriority())
+                .completionDate(todo.getCompletionDate())
                 .createdAt(todo.getCreatedAt())
                 .updatedAt(todo.getUpdatedAt())
                 .build();

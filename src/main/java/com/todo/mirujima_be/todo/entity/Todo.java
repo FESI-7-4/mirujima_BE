@@ -8,6 +8,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -41,6 +43,8 @@ public class Todo extends BaseUserEntity {
     private Boolean done;
 
     private Integer priority;
+
+    private LocalDateTime completionDate;
 
     public void modifyTo(TodoModRequest todoModRequest) {
         this.title = todoModRequest.getTitle();
