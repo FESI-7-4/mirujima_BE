@@ -69,6 +69,7 @@ public class TodoService {
         .goal(goal)
         .title(todoRegRequest.getTitle())
         .linkUrl(todoRegRequest.getLinkUrl())
+        .orgFileName(todoRegRequest.getFileName())
         .filePath(todoRegRequest.getFilePath())
         .priority(todoRegRequest.getPriority())
         .done(false)

@@ -27,7 +27,9 @@ public class TodoResponse {
   private Boolean done;
   @Schema(description = "파일 경로")
   private String linkUrl;
-  @Schema(description = "파일 경로", example = "/home/image/sample.jpg")
+  @Schema(description = "파일 이름", example = "orgFileName.jpg")
+  private String orgFileName;
+  @Schema(description = "파일 경로", example = "/home/image/uuid.jpg")
   private String filePath;
   @Schema(description = "할일 제목", example = "할일 제목")
   private String title;
@@ -48,15 +50,16 @@ public class TodoResponse {
   public static TodoResponse of(Todo todo) {
     GoalDto goalDto = null;
     var goal = todo.getGoal();
-      if (goal != null) {
-          goalDto = GoalDto.from(goal);
-      }
+    if (goal != null) {
+      goalDto = GoalDto.from(goal);
+    }
     var note = todo.getNote();
     return TodoResponse.builder()
         .goal(goalDto)
         .noteId(note == null ? null : note.getId())
         .done(todo.getDone())
         .linkUrl(todo.getLinkUrl())
+        .orgFileName(todo.getOrgFileName())
         .filePath(todo.getFilePath())
         .title(todo.getTitle())
         .id(todo.getId())

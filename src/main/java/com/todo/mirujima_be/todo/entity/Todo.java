@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -23,8 +24,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -53,6 +52,7 @@ public class Todo extends BaseUserEntity {
 
   private String linkUrl;
 
+  private String orgFileName;
   private String filePath;
 
   @Column(nullable = false)
@@ -60,10 +60,11 @@ public class Todo extends BaseUserEntity {
 
   private Integer priority;
 
-    private LocalDateTime completionDate;
+  private LocalDateTime completionDate;
 
   public void modifyTo(TodoModRequest todoModRequest) {
     this.title = todoModRequest.getTitle();
+    this.orgFileName = todoModRequest.getOrgFileName();
     this.filePath = todoModRequest.getFilePath();
     this.linkUrl = todoModRequest.getLinkUrl();
     this.done = todoModRequest.getDone();

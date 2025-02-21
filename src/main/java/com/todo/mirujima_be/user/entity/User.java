@@ -45,6 +45,7 @@ public class User {
   @Enumerated(EnumType.STRING)
   private OauthPlatform oauthPlatform;
 
+  private String orgFileName;
   private String profileImagePath;
 
   @Builder
@@ -67,8 +68,8 @@ public class User {
 
   public void modify(ModificationRequest modificationRequest) {
     this.email = modificationRequest.getEmail();
-    this.password = modificationRequest.getPassword();
     this.username = modificationRequest.getUsername();
+    this.orgFileName = modificationRequest.getOrgFileName();
     this.profileImagePath = modificationRequest.getProfileImagePath();
     this.updatedAt = LocalDateTime.now();
   }
