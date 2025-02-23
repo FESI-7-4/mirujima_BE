@@ -42,3 +42,10 @@ cloud:
       static: ENC(x6/uuqcHpKqcLwYSWMfOZtRPHXBGSejO)
     s3:
       bucket: ENC(5RyziorhkYWj9Zxqxt3Ykg==)
+
+google:
+  client:
+    id: ENC(LqH5cp73vvA0SKrCBKYsw9FbKIpzNv7LizNNQsbmLo3dERMItQ0YvxAMuyZRNpKcM4UFYhp2MmGkKlkD7Mwq7pwGcjJKuaTjDsRDvf/3KZqVHpR7glWcpA==)
+    secret: ENC(CF4gkdLbDhgjaGClGroG4lem8Ih+1COwgJ2FsgVvixOWSRpzDfyVeqCs4Lmfu8/x)
+  redirect:
+    uri: ENC(EDSq6OSdVfhoAf3RShzyHAK+zH3oS94v2yWgdyOdjc85OvnqroBReVocEcAsOMUM)

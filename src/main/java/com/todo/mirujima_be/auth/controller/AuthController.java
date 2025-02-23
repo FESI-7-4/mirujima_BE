@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @Tag(name = "Auth", description = "인증 관련 API")
 @RestController
 @RequestMapping("/mirujima/auth")
@@ -45,6 +47,13 @@ public class AuthController {
     public CommonResponse<TokenResponse> refresh(@RequestBody TokenRequest refreshToken) {
         var response = authService.refresh(refreshToken.getRefreshToken());
         return new CommonResponse<TokenResponse>().success(response);
+    }
+
+    @PostMapping("/google")
+    public CommonResponse<LoginResponse> loginWithGoogle(@RequestBody Map<String, String> request) {
+        String code = request.get("code");
+        var response = authService.loginOrRegister(code);
+        return new CommonResponse<LoginResponse>().success(response);
     }
 
 }
