@@ -1,5 +1,6 @@
 package com.todo.mirujima_be.auth.controller;
 
+import com.todo.mirujima_be.auth.dto.request.GoogleRequest;
 import com.todo.mirujima_be.auth.dto.request.LoginRequest;
 import com.todo.mirujima_be.auth.dto.request.TokenRequest;
 import com.todo.mirujima_be.auth.dto.response.LoginResponse;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @Tag(name = "Auth", description = "인증 관련 API")
 @RestController
@@ -50,9 +49,14 @@ public class AuthController {
     }
 
     @PostMapping("/google")
-    public CommonResponse<LoginResponse> loginWithGoogle(@RequestBody Map<String, String> request) {
-        String code = request.get("code");
-        var response = authService.loginOrRegister(code);
+    @Operation(summary = "구글 OAuth API", description = "토큰을 받아 사용자 회원가입 혹은 로그인을 시도합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Google OAuth 인증 성공"),
+                    @ApiResponse(responseCode = "400", description = "Google OAuth 인증 실패")
+            }
+    )
+    public CommonResponse<LoginResponse> loginWithGoogle(@RequestBody GoogleRequest googleRequest) {
+        var response = authService.loginOrRegister(googleRequest);
         return new CommonResponse<LoginResponse>().success(response);
     }
 

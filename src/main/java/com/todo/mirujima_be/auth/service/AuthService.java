@@ -1,5 +1,6 @@
 package com.todo.mirujima_be.auth.service;
 
+import com.todo.mirujima_be.auth.dto.request.GoogleRequest;
 import com.todo.mirujima_be.auth.dto.request.LoginRequest;
 import com.todo.mirujima_be.auth.dto.response.LoginResponse;
 import com.todo.mirujima_be.auth.dto.response.TokenResponse;
@@ -54,8 +55,8 @@ public class AuthService {
     }
 
     @Transactional
-    public LoginResponse loginOrRegister(String code) {
-        var accessToken = googleOAuthService.getAccessToken(code);
+    public LoginResponse loginOrRegister(GoogleRequest googleRequest) {
+        var accessToken = googleOAuthService.getAccessToken(googleRequest.getCode());
         var userInfo = googleOAuthService.getUserInfo(accessToken);
 
         var email = (String) userInfo.get("email");
