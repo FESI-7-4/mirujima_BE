@@ -44,7 +44,7 @@ public class AuthController {
         return new CommonResponse<TokenResponse>().success(response);
     }
 
-    @PostMapping("/google")
+    @GetMapping("/google")
     @Operation(summary = "구글 OAuth API", description = "토큰을 받아 사용자 회원가입 혹은 로그인을 시도합니다.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Google OAuth 인증 성공"),
