@@ -2,6 +2,7 @@ package com.todo.mirujima_be.user.controller;
 
 import com.todo.mirujima_be.auth.dto.response.EmailCheckResponse;
 import com.todo.mirujima_be.common.dto.CommonResponse;
+import com.todo.mirujima_be.user.dto.request.ModificationImageRequest;
 import com.todo.mirujima_be.user.dto.request.ModificationRequest;
 import com.todo.mirujima_be.user.dto.request.RegisterRequest;
 import com.todo.mirujima_be.user.dto.response.UserResponse;
@@ -39,8 +40,20 @@ public class UserController {
                     @ApiResponse(responseCode = "400", description = "유저 정보 수정 실패")
             }
     )
-    public CommonResponse<UserResponse> modify(@RequestBody ModificationRequest registerRequest) {
-        var response = userService.modify(registerRequest);
+    public CommonResponse<UserResponse> modify(@RequestBody ModificationRequest modificationRequest) {
+        var response = userService.modify(modificationRequest);
+        return new CommonResponse<UserResponse>().success(response);
+    }
+
+    @PutMapping("/image")
+    @Operation(summary = "유저 이미지 프로필 수정 API", description = "유저 프로필 이미지 정보를 받아 수정을 진행합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "유저 프로필 이미지 수정 성공"),
+                    @ApiResponse(responseCode = "400", description = "유저 프로필 이미지 수정 실패")
+            }
+    )
+    public CommonResponse<UserResponse> updateProfileImage(@RequestBody ModificationImageRequest modificationImageRequest) {
+        var response = userService.updateProfileImage(modificationImageRequest);
         return new CommonResponse<UserResponse>().success(response);
     }
 
