@@ -1,6 +1,5 @@
 package com.todo.mirujima_be.auth.controller;
 
-import com.todo.mirujima_be.auth.dto.request.GoogleRequest;
 import com.todo.mirujima_be.auth.dto.request.LoginRequest;
 import com.todo.mirujima_be.auth.dto.request.TokenRequest;
 import com.todo.mirujima_be.auth.dto.response.LoginResponse;
@@ -11,10 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Auth", description = "인증 관련 API")
 @RestController
@@ -55,8 +51,8 @@ public class AuthController {
                     @ApiResponse(responseCode = "400", description = "Google OAuth 인증 실패")
             }
     )
-    public CommonResponse<LoginResponse> loginWithGoogle(@RequestBody GoogleRequest googleRequest) {
-        var response = authService.loginOrRegister(googleRequest);
+    public CommonResponse<LoginResponse> loginWithGoogle(@RequestParam String code) {
+        var response = authService.loginOrRegister(code);
         return new CommonResponse<LoginResponse>().success(response);
     }
 
