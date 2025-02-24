@@ -2,6 +2,7 @@ package com.todo.mirujima_be.todo.controller;
 
 import com.todo.mirujima_be.common.dto.CommonResponse;
 import com.todo.mirujima_be.todo.dto.TodoPageCollection;
+import com.todo.mirujima_be.todo.dto.request.TodoCompletionRequest;
 import com.todo.mirujima_be.todo.dto.request.TodoListRequest;
 import com.todo.mirujima_be.todo.dto.request.TodoModRequest;
 import com.todo.mirujima_be.todo.dto.request.TodoRegRequest;
@@ -75,8 +76,10 @@ public class TodoController {
                     @ApiResponse(responseCode = "200", description = "성공")
             }
     )
-    public CommonResponse<TodoResponse> completeTodo(@PathVariable(name = "todoId") Long id) {
-        var response = todoService.completeTodo(id);
+    public CommonResponse<TodoResponse> completeTodo(
+            @PathVariable(name = "todoId") Long id, @RequestBody @Valid TodoCompletionRequest todoCompletionRequest
+    ) {
+        var response = todoService.completeTodo(id, todoCompletionRequest);
         return new CommonResponse<TodoResponse>().success(response);
     }
 
