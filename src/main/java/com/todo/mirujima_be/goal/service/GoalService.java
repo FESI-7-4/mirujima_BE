@@ -53,7 +53,7 @@ public class GoalService {
   public GoalResponse createGoal(GoalRegRequest goalRegRequest) {
     var goal = Goal.builder()
         .title(goalRegRequest.getTitle())
-        .completionDate(goalRegRequest.getCompletionDate())
+        .completionDate(goalRegRequest.getCompletionDate().atStartOfDay())
         .build();
     goalRepository.save(goal);
     return GoalResponse.of(goal);
