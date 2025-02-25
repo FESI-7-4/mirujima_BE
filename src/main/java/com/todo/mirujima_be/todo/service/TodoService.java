@@ -86,7 +86,8 @@ public class TodoService {
     todo.modifyTo(todoModRequest);
     var goalId = todoModRequest.getGoalId();
     if (goalId != null) {
-      todo.setGoal(new Goal(goalId));
+      var goal = goalRepository.findById(goalId).orElseThrow(() -> new AlertException("목표가 존재하지 않습니다."));
+      todo.setGoal(goal);
     }
     return TodoResponse.of(todo);
   }
