@@ -31,4 +31,7 @@ public class Goal extends BaseUserEntity {
   @Column
   private LocalDateTime completionDate;
 
+  public Goal(Long id) {
+    this.id = id;
+  }
 }
