@@ -8,4 +8,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, CustomTodoRep
 
   List<Todo> findAllByCreatedByEmail(String email);
 
+  List<Todo> findAllByGoalId(Long goalId);
+
 }

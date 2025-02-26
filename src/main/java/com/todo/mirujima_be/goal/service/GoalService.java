@@ -12,6 +12,7 @@ import com.todo.mirujima_be.goal.dto.request.GoalRegRequest;
 import com.todo.mirujima_be.goal.dto.response.GoalResponse;
 import com.todo.mirujima_be.goal.entity.Goal;
 import com.todo.mirujima_be.goal.repository.GoalRepository;
+import com.todo.mirujima_be.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class GoalService {
 
   private final GoalRepository goalRepository;
+  private final TodoRepository todoRepository;
 
   public GoalResponse getGoal(Long id) {
     var goal = goalRepository.findById(id).orElseThrow(() -> new AlertException("목표가 존재하지 않습니다"));
@@ -72,6 +74,8 @@ public class GoalService {
   public void deleteGoal(Long id) {
     var goal = goalRepository.findById(id).orElseThrow(() -> new AlertException("목표가 존재하지 않습니다"));
     checkAuthority(MirujimaConstants.Goal.Goal, goal);
+    var todoList = todoRepository.findAllByGoalId(goal.getId());
+    todoRepository.deleteAllInBatch(todoList);
     goalRepository.deleteById(id);
   }
 
