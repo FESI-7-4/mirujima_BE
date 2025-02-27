@@ -74,8 +74,7 @@ public class GoalService {
   public void deleteGoal(Long id) {
     var goal = goalRepository.findById(id).orElseThrow(() -> new AlertException("목표가 존재하지 않습니다"));
     checkAuthority(MirujimaConstants.Goal.Goal, goal);
-    var todoList = todoRepository.findAllByGoalId(goal.getId());
-    todoRepository.deleteAllInBatch(todoList);
+    todoRepository.deleteByGoalId(id);
     goalRepository.deleteById(id);
   }
 
