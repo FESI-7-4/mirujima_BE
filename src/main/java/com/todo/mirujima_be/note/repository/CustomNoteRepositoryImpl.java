@@ -32,7 +32,7 @@ public class CustomNoteRepositoryImpl implements CustomNoteRepository {
     return factory.select(note.id)
         .from(note)
         .join(note.todo, todo)
-        .join(todo.goal, goal)
+        .leftJoin(todo.goal, goal)
         .join(note.createdBy, user)
         .where(condition)
         .orderBy(note.id.desc())
@@ -50,7 +50,7 @@ public class CustomNoteRepositoryImpl implements CustomNoteRepository {
     return factory.select(note.count())
         .from(note)
         .join(note.todo, todo)
-        .join(todo.goal, goal)
+        .leftJoin(todo.goal, goal)
         .join(note.createdBy, user)
         .where(condition)
         .fetchOne();
