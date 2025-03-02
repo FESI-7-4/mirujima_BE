@@ -1,5 +1,6 @@
 package com.todo.mirujima_be.note.controller;
 
+import com.todo.mirujima_be.auth.util.AuthUtil;
 import com.todo.mirujima_be.common.dto.CommonResponse;
 import com.todo.mirujima_be.note.dto.NotePageCollection;
 import com.todo.mirujima_be.note.dto.request.NoteListRequest;
@@ -29,7 +30,7 @@ public class NoteController {
             }
     )
     public CommonResponse<NotePageCollection> getNoteList(@ModelAttribute @Valid NoteListRequest noteListRequest) {
-        var response = noteService.getNoteList(noteListRequest);
+        var response = noteService.getNoteList(AuthUtil.getEmail(), noteListRequest);
         return new CommonResponse<NotePageCollection>().success(response);
     }
 
@@ -40,7 +41,7 @@ public class NoteController {
             }
     )
     public CommonResponse<NoteResponse> registerNote(@RequestBody @Valid NoteRegRequest noteRegRequest) {
-        var response = noteService.registerNote(noteRegRequest);
+        var response = noteService.createNote(AuthUtil.getEmail(), noteRegRequest);
         return new CommonResponse<NoteResponse>().success(response);
     }
 
@@ -51,7 +52,7 @@ public class NoteController {
             }
     )
     public CommonResponse<NoteResponse> getNoteDetail(@PathVariable(name = "noteId") long id) {
-        var response = noteService.getNoteDetail(id);
+        var response = noteService.getNoteDetail(AuthUtil.getEmail(), id);
         return new CommonResponse<NoteResponse>().success(response);
     }
 
@@ -64,7 +65,7 @@ public class NoteController {
     public CommonResponse<NoteResponse> modifyNote(
             @PathVariable(name = "noteId") long id, @RequestBody @Valid NoteModRequest noteModRequest
     ) {
-        var response = noteService.modifyNote(id, noteModRequest);
+        var response = noteService.modifyNote(AuthUtil.getEmail(), id, noteModRequest);
         return new CommonResponse<NoteResponse>().success(response);
     }
 
@@ -75,7 +76,7 @@ public class NoteController {
             }
     )
     public CommonResponse<?> deleteNote(@PathVariable("noteId") long noteId) {
-        noteService.deleteNote(noteId);
+        noteService.deleteNote(AuthUtil.getEmail(), noteId);
         return new CommonResponse<>().success(null);
     }
 

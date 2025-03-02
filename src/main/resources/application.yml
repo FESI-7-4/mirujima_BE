@@ -18,6 +18,10 @@ spring:
         format_sql: true
         show_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+  data:
+    redis:
+      host: ENC(kipmZRoj9LTcSHFAc20ub6Yq5RXDU/zzrOGL8lMkos2AO5p9N2czfiN9LJ7Lq2Djuwb7dOeFieCXT1NKvAoDNQ==)
+      port: 6379
 
 jwt:
   expiredAccessTokenMs: 3600000

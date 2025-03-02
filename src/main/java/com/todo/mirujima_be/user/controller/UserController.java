@@ -1,6 +1,7 @@
 package com.todo.mirujima_be.user.controller;
 
 import com.todo.mirujima_be.auth.dto.response.EmailCheckResponse;
+import com.todo.mirujima_be.auth.util.AuthUtil;
 import com.todo.mirujima_be.common.dto.CommonResponse;
 import com.todo.mirujima_be.user.dto.request.ModificationImageRequest;
 import com.todo.mirujima_be.user.dto.request.ModificationRequest;
@@ -29,7 +30,7 @@ public class UserController {
             }
     )
     public CommonResponse<UserResponse> register(@RequestBody RegisterRequest registerRequest) {
-        var response = userService.register(registerRequest);
+        var response = userService.registerUser(registerRequest);
         return new CommonResponse<UserResponse>().success(response);
     }
 
@@ -41,7 +42,7 @@ public class UserController {
             }
     )
     public CommonResponse<UserResponse> modify(@RequestBody ModificationRequest modificationRequest) {
-        var response = userService.modify(modificationRequest);
+        var response = userService.updateUserInfo(AuthUtil.getEmail(), modificationRequest);
         return new CommonResponse<UserResponse>().success(response);
     }
 
@@ -53,7 +54,7 @@ public class UserController {
             }
     )
     public CommonResponse<UserResponse> updateProfileImage(@RequestBody ModificationImageRequest modificationImageRequest) {
-        var response = userService.updateProfileImage(modificationImageRequest);
+        var response = userService.updateProfileImage(AuthUtil.getEmail(), modificationImageRequest);
         return new CommonResponse<UserResponse>().success(response);
     }
 
@@ -67,7 +68,7 @@ public class UserController {
             }
     )
     public UserResponse getUserInfo() {
-        return userService.getUserInfo();
+        return userService.getUserInfo(AuthUtil.getEmail());
     }
 
     @GetMapping("/exists")

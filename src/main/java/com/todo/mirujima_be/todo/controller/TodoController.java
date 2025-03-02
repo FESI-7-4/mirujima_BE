@@ -1,5 +1,6 @@
 package com.todo.mirujima_be.todo.controller;
 
+import com.todo.mirujima_be.auth.util.AuthUtil;
 import com.todo.mirujima_be.common.dto.CommonResponse;
 import com.todo.mirujima_be.todo.dto.TodoPageCollection;
 import com.todo.mirujima_be.todo.dto.request.TodoCompletionRequest;
@@ -42,7 +43,7 @@ public class TodoController {
             }
     )
     public CommonResponse<TodoResponse> registerTodo(@RequestBody @Valid TodoRegRequest todoRegRequest) {
-        var response = todoService.registerTodo(todoRegRequest);
+        var response = todoService.createTodo(AuthUtil.getEmail(), todoRegRequest);
         return new CommonResponse<TodoResponse>().success(response);
     }
 
@@ -53,7 +54,7 @@ public class TodoController {
             }
     )
     public CommonResponse<TodoResponse> getTodoDetail(@PathVariable("todoId") long id) {
-        var todoDetailDto = todoService.getTodoDetail(id);
+        var todoDetailDto = todoService.getTodoDetail(AuthUtil.getEmail(), id);
         return new CommonResponse<TodoResponse>().success(todoDetailDto);
     }
 
@@ -66,7 +67,7 @@ public class TodoController {
     public CommonResponse<TodoResponse> modifyTodo(
             @PathVariable(name = "todoId") Long id, @RequestBody @Valid TodoModRequest todoModRequest
     ) {
-        var response = todoService.modifyTodo(id, todoModRequest);
+        var response = todoService.modifyTodo(AuthUtil.getEmail(), id, todoModRequest);
         return new CommonResponse<TodoResponse>().success(response);
     }
 
@@ -79,7 +80,7 @@ public class TodoController {
     public CommonResponse<TodoResponse> completeTodo(
             @PathVariable(name = "todoId") Long id, @RequestBody @Valid TodoCompletionRequest todoCompletionRequest
     ) {
-        var response = todoService.completeTodo(id, todoCompletionRequest);
+        var response = todoService.completeTodo(AuthUtil.getEmail(), id, todoCompletionRequest);
         return new CommonResponse<TodoResponse>().success(response);
     }
 
@@ -90,7 +91,7 @@ public class TodoController {
             }
     )
     public CommonResponse<?> deleteTodo(@PathVariable("todoId") long todoId) {
-        todoService.deleteTodo(todoId);
+        todoService.deleteTodo(AuthUtil.getEmail(), todoId);
         return new CommonResponse<>().success(null);
     }
 
@@ -101,7 +102,7 @@ public class TodoController {
             }
     )
     public CommonResponse<TodoProceedStatusResponse> getProgressStatus() {
-        var todoProceedStatusDto = todoService.getProgressStatus();
+        var todoProceedStatusDto = todoService.getProgressStatus(AuthUtil.getEmail());
         return new CommonResponse<TodoProceedStatusResponse>().success(todoProceedStatusDto);
     }
 
