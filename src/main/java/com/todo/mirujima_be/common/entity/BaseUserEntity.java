@@ -18,11 +18,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseUserEntity extends BaseEntity {
 
-  @LastModifiedBy
-  @ManyToOne(fetch = FetchType.EAGER)
+  @CreatedBy
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "created_by")
   protected User createdBy;
-  @CreatedBy
+
+  @LastModifiedBy
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "updated_by")
   protected User updatedBy;

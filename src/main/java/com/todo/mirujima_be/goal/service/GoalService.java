@@ -11,6 +11,7 @@ import com.todo.mirujima_be.goal.dto.request.GoalRegRequest;
 import com.todo.mirujima_be.goal.dto.response.GoalResponse;
 import com.todo.mirujima_be.goal.entity.Goal;
 import com.todo.mirujima_be.goal.repository.GoalRepository;
+import com.todo.mirujima_be.note.repository.NoteRepository;
 import com.todo.mirujima_be.todo.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,7 @@ public class GoalService {
 
   private final GoalRepository goalRepository;
   private final TodoRepository todoRepository;
+  private final NoteRepository noteRepository;
 
   //  @Cacheable(value = "goalList", key = "#email + '::' + #goalListRequest.lastSeenId + '::' + #goalListRequest.pageSize")
   public GoalPageCollection getGoalList(String email, GoalListRequest goalListRequest) {
@@ -80,6 +82,7 @@ public class GoalService {
   public void deleteGoal(String email, Long id) {
     var goal = goalRepository.findById(id).orElseThrow(() -> new AlertException("목표가 존재하지 않습니다"));
     checkAuthority(email, MirujimaConstants.Goal.Goal, goal);
+    noteRepository.deleteNotesByGoalId(id);
     todoRepository.deleteByGoalId(id);
     goalRepository.deleteById(id);
 
