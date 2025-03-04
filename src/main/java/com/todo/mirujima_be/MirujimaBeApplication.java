@@ -2,14 +2,13 @@ package com.todo.mirujima_be;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 @SpringBootApplication
-@EnableRedisRepositories
+//@EnableRedisRepositories
 public class MirujimaBeApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(MirujimaBeApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(MirujimaBeApplication.class, args);
+  }
 
 }
