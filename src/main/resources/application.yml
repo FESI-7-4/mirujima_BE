@@ -23,6 +23,12 @@ spring:
 #      host: ENC(kipmZRoj9LTcSHFAc20ub6Yq5RXDU/zzrOGL8lMkos2AO5p9N2czfiN9LJ7Lq2Djuwb7dOeFieCXT1NKvAoDNQ==)
 #      port: 6379
 
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace    # Hibernate 바인딩 정보
+    org.hibernate.stat: off               # Hibernate 통계 정보
+    org.springframework.transaction: off  # 트랜잭션 디버깅
+
 jwt:
   expiredAccessTokenMs: 3600000
   expiredRefreshTokenMs: 86400000
