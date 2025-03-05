@@ -16,7 +16,6 @@ import com.todo.mirujima_be.todo.dto.response.TodoProceedStatusResponse;
 import com.todo.mirujima_be.todo.dto.response.TodoResponse;
 import com.todo.mirujima_be.todo.entity.Todo;
 import com.todo.mirujima_be.todo.repository.TodoRepository;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -97,8 +96,7 @@ public class TodoService {
   public TodoResponse completeTodo(String email, Long id, TodoCompletionRequest todoCompletionRequest) {
     var todo = todoRepository.findById(id).orElseThrow(() -> new AlertException("할일이 없습니다."));
     checkAuthority(email, MirujimaConstants.Todo.Todo, todo);
-    todo.setDone(todoCompletionRequest.getDone());
-    todo.setCompletionDate(LocalDateTime.now());
+    todo.complete(todoCompletionRequest.getDone());
     return TodoResponse.of(todo);
   }
 

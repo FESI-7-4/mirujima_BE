@@ -7,7 +7,6 @@ import com.todo.mirujima_be.todo.entity.Todo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,8 +36,8 @@ public class Note extends BaseUserEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @OneToOne
   @JoinColumn(name = "todo_id")
-  @OneToOne(fetch = FetchType.LAZY, optional = false)
   @OnDelete(action = OnDeleteAction.SET_NULL)
   private Todo todo;
 

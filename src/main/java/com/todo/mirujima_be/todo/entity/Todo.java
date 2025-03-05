@@ -69,4 +69,9 @@ public class Todo extends BaseUserEntity {
     this.priority = todoModRequest.getPriority();
   }
 
+  public void complete(boolean done) {
+    this.done = done;
+    this.completionDate = done ? LocalDateTime.now() : null;
+  }
+
 }

@@ -33,7 +33,7 @@ public class NoteService {
     return NotePageCollection.builder()
         .lastSeenId(lastSeenTodoId)
         .remainingCount(noteCount.intValue() - notes.size())
-//        .notes(notes.stream().map(NoteResponse::of).toList())
+        .notes(notes.stream().map(NoteResponse::of).toList())
         .build();
   }
 

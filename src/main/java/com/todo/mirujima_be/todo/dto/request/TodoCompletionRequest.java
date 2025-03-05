@@ -13,8 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class TodoCompletionRequest {
 
-    @NotNull(message = "완료 여부는 필수 값입니다.")
-    @Schema(description = "완료 여부", example = "1")
-    private Boolean done;
+  @NotNull(message = "완료 여부는 필수 값입니다.")
+  @Schema(description = "완료 여부", example = "true")
+  private Boolean done;
 
 }

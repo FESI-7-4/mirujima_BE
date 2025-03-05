@@ -40,8 +40,10 @@ public class NoteResponse {
   public static NoteResponse of(Note note) {
     var todo = note.getTodo();
     GoalDto goalDto = null;
-//        var goal = todo.getGoal();
-//        if (goal != null) goalDto = GoalDto.from(goal);
+    var goal = todo.getGoal();
+    if (goal != null) {
+      goalDto = GoalDto.from(goal);
+    }
     return NoteResponse.builder()
         .todoDto(TodoDto.from(todo))
         .content(note.getContent())
