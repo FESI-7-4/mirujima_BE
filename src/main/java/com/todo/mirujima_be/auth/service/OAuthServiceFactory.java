@@ -4,10 +4,12 @@ import com.todo.mirujima_be.auth.dto.OAuthUserInfo;
 import com.todo.mirujima_be.auth.service.oauth.GoogleOAuthService;
 import com.todo.mirujima_be.auth.service.oauth.KakaoOAuthService;
 import com.todo.mirujima_be.auth.service.oauth.OAuthService;
+import com.todo.mirujima_be.common.exception.AlertException;
 import com.todo.mirujima_be.user.entity.OauthPlatform;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,8 @@ public class OAuthServiceFactory {
   }
 
   public OAuthUserInfo getUserInfo(String platform, String code) {
-    var service = oAuthServiceMap.get(platform);
+    var service = Optional.ofNullable(oAuthServiceMap.get(platform))
+        .orElseThrow(() -> new AlertException("잘못된 인증 플랫폼입니다."));
     var accessToken = service.getAccessToken(code);
     return service.getUserInfo(accessToken);
   }
