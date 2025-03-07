@@ -10,7 +10,6 @@ import com.todo.mirujima_be.user.entity.OauthPlatform;
 import com.todo.mirujima_be.user.entity.User;
 import com.todo.mirujima_be.user.repository.UserRepository;
 import java.time.ZoneId;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,15 +25,16 @@ public class AuthService {
   private final JwtUtil jwtUtil;
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
-  private final GoogleOAuthService googleOAuthService;
+
+  private final OAuthServiceFactory oAuthServiceFactory;
 
   public LoginResponse login(LoginRequest loginRequest) {
     var email = loginRequest.getEmail();
     var user = userRepository.findUserByEmail(email)
         .orElseThrow(() -> new UsernameNotFoundException("가입되지 않은 이메일입니다."));
-      if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-          throw new AlertException("비밀번호가 일치하지 않습니다.");
-      }
+    if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+      throw new AlertException("비밀번호가 일치하지 않습니다.");
+    }
     var userDto = UserResponse.of(user);
     return LoginResponse.builder()
         .user(userDto)
@@ -54,35 +54,34 @@ public class AuthService {
   }
 
   @Transactional
-  public LoginResponse loginOrRegister(String code) {
-    var accessToken = googleOAuthService.getAccessToken(code);
-    var userInfo = googleOAuthService.getUserInfo(accessToken);
+  public LoginResponse authenticateWithOAuth(String platform, String code) {
 
-    var email = userInfo.get("email").asText();
-    var name = userInfo.get("name").asText();
+    platform = platform.toUpperCase();
+    var userInfo = oAuthServiceFactory.getUserInfo(platform, code);
+    var email = userInfo.email();
+    var name = userInfo.name();
 
-    Optional<User> userOptional = userRepository.findUserByEmail(email);
+    var userOptional = userRepository.findUserByEmail(email);
     User user;
-
     if (userOptional.isPresent()) {
       user = userOptional.get();
     } else {
       user = User.builder()
           .email(email)
-          .password(OauthPlatform.GOOGLE.name())
+          .password(platform)
           .username(name)
-          .oauthPlatform(OauthPlatform.GOOGLE)
+          .oauthPlatform(OauthPlatform.valueOf(platform))
           .build();
       userRepository.save(user);
     }
-    var userDto = UserResponse.of(user);
 
     return LoginResponse.builder()
-        .user(userDto)
+        .user(UserResponse.of(user))
         .accessToken(jwtUtil.createAccessToken(user.getEmail()))
         .refreshToken(jwtUtil.createRefreshToken(user.getEmail()))
         .expiredAt(jwtUtil.getAccessTokenExpiredAt()
             .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
         .build();
   }
+
 }

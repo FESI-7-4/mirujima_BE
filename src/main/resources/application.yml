@@ -53,9 +53,20 @@ cloud:
     s3:
       bucket: ENC(5RyziorhkYWj9Zxqxt3Ykg==)
 
+kakao:
+  tokenUrl: https://kauth.kakao.com/oauth/token
+  userInfoUrl: https://kapi.kakao.com/v2/user/me
+  client:
+    id: ENC(mZNYQLnC/rE5iqR1DHFsDwySqPNm3wgLuS/0Km7ELApwO/O3GeBRyRAzSIsXecUS)
+    secret: ENC(RFYPTIuJPAKDIuvj4S2JGDVzKRPyzOMFYhXAnOAsXD6KqJRpEwqAowc3Xn1QdWwr)
+  redirect:
+    uri: https://api.mirujima.shop/mirujima/auth/kakao
+
 google:
+  tokenUrl: https://oauth2.googleapis.com/token
+  userInfoUrl: https://www.googleapis.com/oauth2/v2/userinfo
   client:
     id: ENC(LqH5cp73vvA0SKrCBKYsw9FbKIpzNv7LizNNQsbmLo3dERMItQ0YvxAMuyZRNpKcM4UFYhp2MmGkKlkD7Mwq7pwGcjJKuaTjDsRDvf/3KZqVHpR7glWcpA==)
     secret: ENC(CF4gkdLbDhgjaGClGroG4lem8Ih+1COwgJ2FsgVvixOWSRpzDfyVeqCs4Lmfu8/x)
   redirect:
-    uri: ENC(EDSq6OSdVfhoAf3RShzyHAK+zH3oS94v2yWgdyOdjc85OvnqroBReVocEcAsOMUM)
+    uri: https://api.mirujima.shop/mirujima/auth/google
