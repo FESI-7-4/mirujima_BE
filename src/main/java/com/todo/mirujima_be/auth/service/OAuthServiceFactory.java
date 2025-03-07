@@ -6,6 +6,7 @@ import com.todo.mirujima_be.auth.service.oauth.KakaoOAuthService;
 import com.todo.mirujima_be.auth.service.oauth.OAuthService;
 import com.todo.mirujima_be.user.entity.OauthPlatform;
 import jakarta.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OAuthServiceFactory {
 
-  private final Map<String, OAuthService> oAuthServiceMap;
+  private final Map<String, OAuthService> oAuthServiceMap = new HashMap<>();
 
   private final GoogleOAuthService googleOAuthService;
   private final KakaoOAuthService kakaoOAuthService;
