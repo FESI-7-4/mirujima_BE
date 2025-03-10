@@ -58,9 +58,10 @@ public class AuthController {
       }
   )
   public CommonResponse<LoginResponse> loginWithGoogle(
-      @PathVariable(name = "platform") String platform, @RequestParam String code
+      @PathVariable(name = "platform") String platform,
+      @RequestParam(name = "code") String code, @RequestParam(name = "redirectUri") String redirectUri
   ) {
-    var response = authService.authenticateWithOAuth(platform, code);
+    var response = authService.authenticateWithOAuth(platform, redirectUri, code);
     return new CommonResponse<LoginResponse>().success(response);
   }
 

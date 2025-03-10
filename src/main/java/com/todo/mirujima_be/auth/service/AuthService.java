@@ -30,7 +30,7 @@ public class AuthService {
 
   public LoginResponse login(LoginRequest loginRequest) {
     var email = loginRequest.getEmail();
-    var user = userRepository.findUserByEmail(email)
+    var user = userRepository.findUserByEmailAndOauthPlatform(email, OauthPlatform.NONE)
         .orElseThrow(() -> new UsernameNotFoundException("가입되지 않은 이메일입니다."));
     if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
       throw new AlertException("비밀번호가 일치하지 않습니다.");
@@ -54,10 +54,10 @@ public class AuthService {
   }
 
   @Transactional
-  public LoginResponse authenticateWithOAuth(String platform, String code) {
+  public LoginResponse authenticateWithOAuth(String platform, String redirectUri, String code) {
 
     platform = platform.toUpperCase();
-    var userInfo = oAuthServiceFactory.getUserInfo(platform, code);
+    var userInfo = oAuthServiceFactory.getUserInfo(platform, redirectUri, code);
     var email = userInfo.email();
     var name = userInfo.name();
 
@@ -68,7 +68,7 @@ public class AuthService {
     } else {
       user = User.builder()
           .email(email)
-          .password(platform)
+          .password("")
           .username(name)
           .oauthPlatform(OauthPlatform.valueOf(platform))
           .build();

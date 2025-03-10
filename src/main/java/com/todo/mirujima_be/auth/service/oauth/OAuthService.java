@@ -4,7 +4,7 @@ import com.todo.mirujima_be.auth.dto.OAuthUserInfo;
 
 public interface OAuthService {
 
-  String getAccessToken(String code);
+  String getAccessToken(String code, String redirectUri);
 
   OAuthUserInfo getUserInfo(String accessToken);
 

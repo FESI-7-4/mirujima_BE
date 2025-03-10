@@ -25,11 +25,9 @@ public class KakaoOAuthService implements OAuthService {
     private String clientId;
     @Value("${kakao.client.secret}")
     private String clientSecret;
-    @Value("${kakao.redirect.uri}")
-    private String redirectUri;
 
     @Override
-    public String getAccessToken(String code) {
+    public String getAccessToken(String code, String redirectUri) {
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 

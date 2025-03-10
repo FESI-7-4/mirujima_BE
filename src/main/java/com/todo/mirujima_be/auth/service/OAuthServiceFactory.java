@@ -28,10 +28,10 @@ public class OAuthServiceFactory {
     oAuthServiceMap.put(OauthPlatform.KAKAO.name(), kakaoOAuthService);
   }
 
-  public OAuthUserInfo getUserInfo(String platform, String code) {
+  public OAuthUserInfo getUserInfo(String platform, String code, String redirectUri) {
     var service = Optional.ofNullable(oAuthServiceMap.get(platform))
         .orElseThrow(() -> new AlertException("잘못된 인증 플랫폼입니다."));
-    var accessToken = service.getAccessToken(code);
+    var accessToken = service.getAccessToken(redirectUri, code);
     return service.getUserInfo(accessToken);
   }
 
