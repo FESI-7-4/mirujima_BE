@@ -104,7 +104,10 @@ public class TodoService {
   public void deleteTodo(String email, long id) {
     var todo = todoRepository.findById(id).orElseThrow(() -> new AlertException("할일이 없습니다."));
     checkAuthority(email, MirujimaConstants.Todo.Todo, todo);
-    noteRepository.deleteById(todo.getNote().getId());
+    var note = todo.getNote();
+    if (note != null) {
+      noteRepository.deleteById(note.getId());
+    }
     todoRepository.deleteById(id);
   }
 
