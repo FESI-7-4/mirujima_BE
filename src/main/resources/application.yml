@@ -40,6 +40,10 @@ jasypt:
     key: ${jasypt_key}
 
 server:
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:ssl/keystore.p12
+    key-store-password: ${ssl_password}
   shutdown: graceful
   port: 8081
 
@@ -70,3 +74,6 @@ google:
     secret: ENC(CF4gkdLbDhgjaGClGroG4lem8Ih+1COwgJ2FsgVvixOWSRpzDfyVeqCs4Lmfu8/x)
   redirect:
     uri: https://api.mirujima.shop/mirujima/auth/google
+
+password:
+  secret-key: ENC(5GFPaP0HrJJDNCxBnoh1kn+DcAoW92ghlPVf9lVVdgSAbaGKFmUGUtLBkrgUA/BS)
