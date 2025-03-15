@@ -5,7 +5,7 @@ spring:
     timeout-per-shutdown-phase: 120
 
   datasource:
-    url: jdbc:mysql://${DB_IP}:3349/${DB_NAME}
+    url: jdbc:mysql://${DB_IP}:3306/${DB_NAME}
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_ID}
     password: ${DB_PW}
@@ -70,3 +70,6 @@ google:
     secret: ENC(CF4gkdLbDhgjaGClGroG4lem8Ih+1COwgJ2FsgVvixOWSRpzDfyVeqCs4Lmfu8/x)
   redirect:
     uri: https://api.mirujima.shop/mirujima/auth/google
+
+password:
+  secret-key: ENC(5GFPaP0HrJJDNCxBnoh1kn+DcAoW92ghlPVf9lVVdgSAbaGKFmUGUtLBkrgUA/BS)
