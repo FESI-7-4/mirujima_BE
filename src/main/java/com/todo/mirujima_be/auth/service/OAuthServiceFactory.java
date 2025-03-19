@@ -1,6 +1,5 @@
 package com.todo.mirujima_be.auth.service;
 
-import com.todo.mirujima_be.auth.dto.OAuthUserInfo;
 import com.todo.mirujima_be.auth.service.oauth.GoogleOAuthService;
 import com.todo.mirujima_be.auth.service.oauth.KakaoOAuthService;
 import com.todo.mirujima_be.auth.service.oauth.OAuthService;
@@ -28,11 +27,9 @@ public class OAuthServiceFactory {
     oAuthServiceMap.put(OauthPlatform.KAKAO.name(), kakaoOAuthService);
   }
 
-  public OAuthUserInfo getUserInfo(String platform, String code, String redirectUri) {
-    var service = Optional.ofNullable(oAuthServiceMap.get(platform))
+  public OAuthService get(String platform) {
+    return Optional.ofNullable(oAuthServiceMap.get(platform))
         .orElseThrow(() -> new AlertException("잘못된 인증 플랫폼입니다."));
-    var accessToken = service.getAccessToken(redirectUri, code);
-    return service.getUserInfo(accessToken);
   }
 
 }
